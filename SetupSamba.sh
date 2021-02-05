@@ -46,11 +46,15 @@ function read_with_prompt {
     fi
   done
 }
-
+cd ~
 # Obtener la ruta del directorio de inicio y el nombre de usuario
   DirName=$(readlink -e ~)
   UserName=$(whoami)
-  cd ~
+echo "Usuario: $UserName"
+echo "Directorio: $DirName"
+
+  
+  
 
   # Instale las dependencias necesarias para ejecutar el servidor de Minecraft en segundo plano
 echo "Instalando screen, unzip, sudo, net-tools, wget..."
@@ -70,25 +74,6 @@ sudo systemctl status nmbd
 
 # Crear copia de seguridad del configurador de samba
 sudo cp /etc/samba/smb.conf /etc/samba/smb_backup.conf
-
-# Creando directorio Compartido de Samba en /home/usuario
-#sudo chown -hR username:www-data minecraftbe
-sudo sed -i '/[samba-$UserName]/d' /etc/samba/smb.conf
-sudo sed -i '$a [samba-$UserName]' /etc/samba/smb.conf
-sudo sed -n "/[samba-$UserName]/p" /etc/samba/smb.conf
-sudo sed -i '/comment = Samba on Ubuntu/d' /etc/samba/smb.conf
-sudo sed -i '$a comment = Samba on Ubuntu' /etc/samba/smb.conf
-sudo sed -n "/comment = Samba on Ubuntu/p" /etc/samba/smb.conf
-sudo sed -i '/path = $DirName/d' /etc/samba/smb.conf
-sudo sed -i '$a path = $DirName' /etc/samba/smb.conf
-sudo sed -n "/path = $DirName/p" /etc/samba/smb.conf
-sudo sed -i '/read only = no/d' /etc/samba/smb.conf
-sudo sed -i '$a read only = no' /etc/samba/smb.conf
-sudo sed -n "/read only = no/p" /etc/samba/smb.conf
-sudo sed -i '/browsable = yes/d' /etc/samba/smb.conf
-sudo sed -i '$a browsable = yes' /etc/samba/smb.conf
-sudo sed -n "/browsable = yes/p" /etc/samba/smb.conf
-sleep 2s
 
 
 # Crear Usuario Samba
@@ -111,6 +96,32 @@ Print_Style "Por Favor digite la contraseña dos veces: " "$MAGENTA"
 sudo smbpasswd -a $NewUser
 echo "========================================================================="
 
+# Creando directorio Compartido de Samba en /home/usuario
+#sudo chown -hR username:www-data minecraftbe
+sudo sed -i '/[samba-username]/d' /etc/samba/smb.conf
+sudo sed -i '$a [samba-username]' /etc/samba/smb.conf
+sudo sed -n "/[samba-username]/p" /etc/samba/smb.conf
+sudo sed -i '/comment = Samba on Ubuntu/d' /etc/samba/smb.conf
+sudo sed -i '$a comment = Samba on Ubuntu' /etc/samba/smb.conf
+sudo sed -n "/comment = Samba on Ubuntu/p" /etc/samba/smb.conf
+sudo sed -i '/path = dirname/d' /etc/samba/smb.conf
+sudo sed -i '$a path = dirname' /etc/samba/smb.conf
+sudo sed -n "/path = dirname/p" /etc/samba/smb.conf
+sudo sed -i '/read only = no/d' /etc/samba/smb.conf
+sudo sed -i '$a read only = no' /etc/samba/smb.conf
+sudo sed -n "/read only = no/p" /etc/samba/smb.conf
+sudo sed -i '/browsable = yes/d' /etc/samba/smb.conf
+sudo sed -i '$a browsable = yes' /etc/samba/smb.conf
+sudo sed -n "/browsable = yes/p" /etc/samba/smb.conf/etc/samba/smb.conf
+sleep 3s
+
+# Cambia datos en smb.conf
+echo "========================================================================="
+echo "Agregando directorio y Usuario en Samba: $DirName - $UserName"
+  sudo sed -i "s:username:$UserName:g" /etc/samba/smb.conf
+  sudo sed -i "s:dirname:$DirName:g" /etc/samba/smb.conf
+echo "========================================================================="
+
 
 # Reiniciando Samba
 sudo systemctl restart smbd.service
@@ -129,8 +140,8 @@ echo "========================================================================="
 
 Print_Style "Configurando Ingreso a directorios desde Windows $IPV4 Usuario: $NewUser" "$YELLOW"
 # Estableciendo conexión
-sudo smbclient //$IPV4 /share_name –U $NewUser$UserName
-
+sudo smbclient //$IPV4 /share_name –U $NewUser
+Print_Style "Estableciendo conexión: smbclient //$IPV4 /share_name –U $NewUser" "$MAGENTA"
 
 #Usuarios Samba
 sudo pdbedit -L
