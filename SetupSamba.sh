@@ -112,7 +112,7 @@ sudo sed -i '$a read only = no' /etc/samba/smb.conf
 sudo sed -n "/read only = no/p" /etc/samba/smb.conf
 sudo sed -i '/browsable = yes/d' /etc/samba/smb.conf
 sudo sed -i '$a browsable = yes' /etc/samba/smb.conf
-sudo sed -n "/browsable = yes/p" /etc/samba/smb.conf/etc/samba/smb.conf
+sudo sed -n "/browsable = yes/p" /etc/samba/smb.conf
 sleep 3s
 
 # Cambia datos en smb.conf
