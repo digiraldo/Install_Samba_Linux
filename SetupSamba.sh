@@ -98,21 +98,21 @@ echo "========================================================================="
 
 # Creando directorio Compartido de Samba en /home/usuario
 #sudo chown -hR username:www-data minecraftbe
-sudo sed -i '/[samba-username]/d' /etc/samba/smb.conf
+# sudo sed -i '/[samba-username]/d' /etc/samba/smb.conf
 sudo sed -i '$a [samba-username]' /etc/samba/smb.conf
 sudo sed -n "/[samba-username]/p" /etc/samba/smb.conf
-sudo sed -i '/comment = Samba on Ubuntu/d' /etc/samba/smb.conf
+# sudo sed -i '/comment = Samba on Ubuntu/d' /etc/samba/smb.conf
 sudo sed -i '$a comment = Samba on Ubuntu' /etc/samba/smb.conf
 sudo sed -n "/comment = Samba on Ubuntu/p" /etc/samba/smb.conf
-sudo sed -i '/path = dirname/d' /etc/samba/smb.conf
+# sudo sed -i '/path = dirname/d' /etc/samba/smb.conf
 sudo sed -i '$a path = dirname' /etc/samba/smb.conf
 sudo sed -n "/path = dirname/p" /etc/samba/smb.conf
-sudo sed -i '/read only = no/d' /etc/samba/smb.conf
+# sudo sed -i '/read only = no/d' /etc/samba/smb.conf
 sudo sed -i '$a read only = no' /etc/samba/smb.conf
 sudo sed -n "/read only = no/p" /etc/samba/smb.conf
-sudo sed -i '/browsable = yes/d' /etc/samba/smb.conf
+# sudo sed -i '/browsable = yes/d' /etc/samba/smb.conf
 sudo sed -i '$a browsable = yes' /etc/samba/smb.conf
-sudo sed -n "/browsable = yes/p" /etc/samba/smb.conf
+sudo sed -n "/browsable = yes/p" /etc/samba/smb.conf/etc/samba/smb.conf
 sleep 3s
 
 # Cambia datos en smb.conf
